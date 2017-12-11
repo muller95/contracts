@@ -155,8 +155,7 @@ public class App
     		String[] uris = veda.query("'rdf:type'==='mnd-s:AdditionalAgreement' ) && ( 'v-s:backwardTarget'== 'd:zzzz')");
     		for (int i = 0; i < uris.length; i++) {
     			String baUri = uris[i].substring(2);	
-    			if (!baUri.equals("c2823403b0c34850b484d75613be8938"))
-    				continue;
+    			
 				String xml = getActualDocument(baUri, docDbConn);
 				   			
 				DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
