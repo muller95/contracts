@@ -155,6 +155,8 @@ public class App
     		String[] uris = veda.query("'rdf:type'==='mnd-s:AdditionalAgreement' ) && ( 'v-s:backwardTarget'== 'd:zzzz')");
     		for (int i = 0; i < uris.length; i++) {
     			String baUri = uris[i].substring(2);	
+    			if (!baUri.equals("c2823403b0c34850b484d75613be8938"))
+    				continue;
 				String xml = getActualDocument(baUri, docDbConn);
 				   			
 				DocumentBuilder docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -178,18 +180,21 @@ public class App
     			    			list = (NodeList)result;
     			    			String inherit_rights_from = null;
     			    			if (list.getLength() > 0) {
-    			    				children = node.getParentNode().getChildNodes();
-    		    					for (int k = 0; k < children.getLength(); k++) {
-    		    						child = children.item(k);
-    		    						if (child.getNodeName() == "linkValue") {
-    		    							inherit_rights_from = child.getTextContent();
-    		    							break;
-    		    						}
-    		    					}
+    			    				node = list.item(0);
+    			    				if (node != null) {
+	    			    				children = node.getParentNode().getChildNodes();
+	    		    					for (int k = 0; k < children.getLength(); k++) {
+	    		    						child = children.item(k);
+	    		    						if (child.getNodeName() == "linkValue") {
+	    		    							inherit_rights_from = child.getTextContent();
+	    		    							break;
+	    		    						}
+	    		    					}
+    			    				}
     			    			}
     			    			
     			    			if (inherit_rights_from == null)
-    			    				inherit_rights_from = contractXml;
+    			    				inherit_rights_from = link;
     			    			
     			    			inherit_rights_from = "d:" + inherit_rights_from;
     			    			Individual indv = veda.getIndividual(uris[i]);
